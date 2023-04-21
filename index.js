@@ -65,6 +65,7 @@ const truncate = (html, length) => {
   let result = "";
   let remainingLength = length;
   let ellipsisAdded = false;
+
   for (const [index, node] of document.entries()) {
     const isLastNode = index === document.length - 1;
     const { length: newLength, text, ellipsisAdded: nodeEllipsisAdded } = traverse(node, remainingLength, isLastNode);
@@ -72,6 +73,10 @@ const truncate = (html, length) => {
     result += text;
     ellipsisAdded = nodeEllipsisAdded;
     if (remainingLength <= 0) break;
+  }
+
+  if (!ellipsisAdded) {
+    result += "...";
   }
 
   return result;
