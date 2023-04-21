@@ -19,7 +19,11 @@ const truncate = (html, length) => {
       const usedLength = Math.min(length, content.length);
       const newText = content.slice(0, usedLength);
       const ellipsis = length > usedLength && isLast ? "..." : "";
-      return { length: length - usedLength, text: newText + ellipsis, ellipsisAdded: !!ellipsis };
+      return {
+        length: length - usedLength,
+        text: newText + ellipsis,
+        ellipsisAdded: !!ellipsis,
+      };
     }
 
     if (node.type === "tag") {
@@ -29,7 +33,11 @@ const truncate = (html, length) => {
 
       for (const [index, child] of children.entries()) {
         const isLastChild = isLast && index === children.length - 1;
-        const { length: newLength, text, ellipsisAdded: childEllipsisAdded } = traverse(child, length, isLastChild);
+        const {
+          length: newLength,
+          text,
+          ellipsisAdded: childEllipsisAdded,
+        } = traverse(child, length, isLastChild);
         length = newLength;
         result += text;
         ellipsisAdded = childEllipsisAdded;
@@ -59,7 +67,8 @@ const truncate = (html, length) => {
 
   let result = "";
   let remainingLength = length;
-  let ellipsisAdded = false
+  let ellipsisAdded = false;
+
   for (const [index, node] of document.entries()) {
     const isLastNode = index === document.length - 1;
     const { length: newLength, text, ellipsisAdded: nodeEllipsisAdded } = traverse(node, remainingLength, isLastNode);
@@ -69,9 +78,11 @@ const truncate = (html, length) => {
     if (remainingLength <= 0) break;
   }
 
+  if (!ellipsisAdded) {
+    result += "...";
+  }
+
   return result;
 };
-
-
 
 export default truncate;
