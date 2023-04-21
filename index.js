@@ -53,12 +53,6 @@ const truncate = (html, length) => {
 
       const openTag = `<${node.name}${attrsStr}>`;
       const closeTag = `</${node.name}>`;
-
-      if (!ellipsisAdded && isLast) {
-        result += "...";
-        ellipsisAdded = true;
-      }
-
       return { length, text: openTag + result + closeTag, ellipsisAdded };
     }
 
@@ -71,7 +65,11 @@ const truncate = (html, length) => {
 
   for (const [index, node] of document.entries()) {
     const isLastNode = index === document.length - 1;
-    const { length: newLength, text, ellipsisAdded: nodeEllipsisAdded } = traverse(node, remainingLength, isLastNode);
+    const {
+      length: newLength,
+      text,
+      ellipsisAdded: nodeEllipsisAdded,
+    } = traverse(node, remainingLength, isLastNode);
     remainingLength = newLength;
     result += text;
     ellipsisAdded = nodeEllipsisAdded;
