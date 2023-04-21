@@ -1,4 +1,4 @@
-declare module 'html-truncate' {
+declare module 'html-truncator' {
   /**
    * Truncates the given HTML string to the specified length.
    * @param html The HTML string to truncate.
