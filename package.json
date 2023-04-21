@@ -1,6 +1,6 @@
 {
   "name": "html-truncator",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "truncate html to a specified length but maintain the structure",
   "main": "index.js",
   "scripts": {
