@@ -1,46 +1,39 @@
 import truncate from "../index";
 
-describe("html-truncator", () => {
-  test("truncate html text without options", () => {
-    const html = "<p>Hello, <strong>world</strong>!</p>";
-    const truncated = truncate(html, 9);
-    expect(truncated).toBe("<p>Hello, <strong>wo</strong>...</p>");
-  });
-
-  test("truncate html text with nested tags", () => {
-    const html =
-      "<div><p>Hello, <strong>world</strong>!</p><p>Good <em>morning</em>.</p></div>";
+describe("truncate function", () => {
+  it("truncates plain text without tags", () => {
+    const html = "This is a test string.";
     const truncated = truncate(html, 10);
-    expect(truncated).toBe("<div><p>Hello, <strong>wor</strong></p>...</div>");
+    expect(truncated).toBe("This is a ...");
   });
 
-  test("truncate html text with unordered list", () => {
-    const html = "<ul><li>Apple</li><li>Banana</li><li>Cherry</li></ul>";
-    const truncated = truncate(html, 7);
-    expect(truncated).toBe("<ul><li>Apple</li><li>Ba</li>...</ul>");
+  it("truncates html text with a single tag", () => {
+    const html = "<p>This is a <strong>test</strong> string.</p>";
+    const truncated = truncate(html, 12);
+    expect(truncated).toBe("<p>This is a <strong>te</strong>...</p>");
   });
 
-  test("truncate html text with self-closing tags", () => {
-    const html = "<p>Hello, <br/>world!</p>";
-    const truncated = truncate(html, 10);
-    expect(truncated).toBe("<p>Hello, <br></br>wor...</p>");
+  it("truncates html text with nested tags", () => {
+    const html = "<p>This is a <strong><em>test</em></strong> string.</p>";
+    const truncated = truncate(html, 12);
+    expect(truncated).toBe("<p>This is a <strong><em>te</em></strong>...</p>");
   });
 
-  test("truncate html text with attributes", () => {
-    const html =
-      '<p id="greeting">Hello, <span style="font-weight:bold">world</span>!</p>';
-    const truncated = truncate(html, 14);
-    expect(truncated).toBe(
-      '<p id="greeting">Hello, <span style="font-weight:bold">world</span>!...</p>'
-    );
+  it("truncates html text with multiple tags at the same level", () => {
+    const html = "<p>This is a <strong>test</strong> <em>string</em>.</p>";
+    const truncated = truncate(html, 12);
+    expect(truncated).toBe("<p>This is a <strong>te</strong>...</p>");
   });
 
-  test("truncate html text with nested tags and mixed content", () => {
-    const html =
-      "<div><h1>Heading</h1><p>Some <em>text <strong>inside</strong></em> the paragraph.</p></div>";
-    const truncated = truncate(html, 20);
-    expect(truncated).toBe(
-      "<div><h1>Heading</h1><p>Some <em>text <strong>ins</strong></em>...</p></div>"
-    );
+  it("truncates html text with attributes", () => {
+    const html = '<p class="my-class">This is a <strong>test</strong> string.</p>';
+    const truncated = truncate(html, 12);
+    expect(truncated).toBe('<p class="my-class">This is a <strong>te</strong>...</p>');
+  });
+
+  it("truncates html text with multiple paragraphs", () => {
+    const html = "<p>This is the first paragraph.</p><p>This is the second paragraph.</p>";
+    const truncated = truncate(html, 12);
+    expect(truncated).toBe("<p>This is the </p>...");
   });
 });

@@ -39,7 +39,8 @@ const truncate = (html, length) => {
       if (!ellipsisAdded && isLast) {
         const lastTextNode = _.findLast(children, { type: "text" });
         if (lastTextNode) {
-          result = result.slice(0, -lastTextNode.data.length) + lastTextNode.data + "...";
+          const lastTextNodeIndex = result.lastIndexOf(lastTextNode.data);
+          result = result.slice(0, lastTextNodeIndex) + lastTextNode.data.slice(0, length) + ">...";
         } else {
           result += "...";
         }
