@@ -4,7 +4,8 @@
   "description": "truncate html to a specified length but maintain the structure",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },
   "jest": {
     "testEnvironment": "node",

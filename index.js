@@ -39,14 +39,13 @@ const truncate = (html, length) => {
       if (!ellipsisAdded && isLast) {
         const lastTextNode = _.findLast(children, { type: "text" });
         if (lastTextNode) {
-          const lastTextNodeIndex = result.lastIndexOf(lastTextNode.data);
-          result = result.slice(0, lastTextNodeIndex) + lastTextNode.data.slice(0, length) + ">...";
-        } else {
-          result += "...";
+          result += "..."
         }
         ellipsisAdded = true;
       }
   
+      debugger
+
       const attrs = _.join(
         _.map(_.entries(node.attribs), ([key, value]) => `${key}="${value}"`),
         " "
