@@ -1,4 +1,4 @@
-const truncate = require("../index");
+import truncate from "../index";
 
 describe("html-truncator", () => {
   test("truncate html text without options", () => {

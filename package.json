@@ -4,7 +4,7 @@
   "description": "truncate html to a specified length but maintain the structure",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "keywords": [
     "html",

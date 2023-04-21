@@ -1,5 +1,5 @@
-const _ = require("lodash");
-const htmlparser2 = require("htmlparser2");
+import _ from "lodash";
+import * as htmlparser2 from "htmlparser2";
 
 const truncate = (html, length) => {
   const handler = new htmlparser2.DomHandler();
@@ -52,4 +52,4 @@ const truncate = (html, length) => {
   return `${truncatedHtml}...`;
 }
 
-module.exports = truncate;
+export default truncate;
