@@ -9,27 +9,36 @@ const truncate = (html, length) => {
 
   const document = handler.dom;
 
-  const traverse = (node, length) => {
+  const traverse = (node, length, isLast) => {
     if (length <= 0) {
-      return { length, text: "" };
+      return { length, text: "", ellipsisAdded: false };
     }
 
     if (node.type === "text") {
       const content = node.data;
       const usedLength = Math.min(length, content.length);
       const newText = content.slice(0, usedLength);
-      return { length: length - usedLength, text: newText };
+      const ellipsis = length > usedLength && isLast ? "..." : "";
+      return { length: length - usedLength, text: newText + ellipsis, ellipsisAdded: !!ellipsis };
     }
 
     if (node.type === "tag") {
       const children = node.children || [];
       let result = "";
+      let ellipsisAdded = false;
 
-      for (const child of children) {
-        const { length: newLength, text } = traverse(child, length);
+      for (const [index, child] of children.entries()) {
+        const isLastChild = isLast && index === children.length - 1;
+        const { length: newLength, text, ellipsisAdded: childEllipsisAdded } = traverse(child, length, isLastChild);
         length = newLength;
         result += text;
+        ellipsisAdded = childEllipsisAdded;
         if (length <= 0) break;
+      }
+
+      if (!ellipsisAdded && isLast) {
+        result += "...";
+        ellipsisAdded = true;
       }
 
       const attrs = _.join(
@@ -41,24 +50,15 @@ const truncate = (html, length) => {
 
       const openTag = `<${node.name}${attrsStr}>`;
       const closeTag = `</${node.name}>`;
-      return { length, text: openTag + result + closeTag };
+      return { length, text: openTag + result + closeTag, ellipsisAdded };
     }
 
-    return { length, text: "" };
-  }
+    return { length, text: "", ellipsisAdded: false };
+  };
 
-  const { text: truncatedHtml } = traverse(document[0], length);
+  const { text: truncatedHtml } = traverse(document[0], length, true);
 
-  return addEllipsis(truncatedHtml);
-}
-
-const addEllipsis = (html) => {
-  const lastClosingTagIndex = html.lastIndexOf('</');
-  if (lastClosingTagIndex === -1) {
-    return html + '...';
-  }
-
-  return html.slice(0, lastClosingTagIndex) + '...' + html.slice(lastClosingTagIndex);
-}
+  return truncatedHtml;
+};
 
 export default truncate;

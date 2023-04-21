@@ -40,7 +40,7 @@ describe("html-truncator", () => {
       "<div><h1>Heading</h1><p>Some <em>text <strong>inside</strong></em> the paragraph.</p></div>";
     const truncated = truncate(html, 20);
     expect(truncated).toBe(
-      "<div><h1>Heading</h1><p>Some <em>text <strong>ins</strong></em></p>...</div>"
+      "<div><h1>Heading</h1><p>Some <em>text <strong>ins</strong></em>...</p></div>"
     );
   });
 });
