@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const htmlparser2 = require("htmlparser2");
 
-function truncate(html, length) {
+const truncate = (html, length) => {
   const handler = new htmlparser2.DomHandler();
   const parser = new htmlparser2.Parser(handler, { xmlMode: false });
   parser.write(html);
@@ -9,7 +9,7 @@ function truncate(html, length) {
 
   const document = handler.dom;
 
-  function traverse(node, length) {
+  const traverse = (node, length) => {
     if (length <= 0) {
       return { length, text: "" };
     }

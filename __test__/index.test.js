@@ -1,6 +1,6 @@
 const truncate = require("../index");
 
-describe("truncate", () => {
+describe("html-truncator", () => {
   test("truncate html text without options", () => {
     const html = "<p>Hello, <strong>world</strong>!</p>";
     const truncated = truncate(html, 9);
