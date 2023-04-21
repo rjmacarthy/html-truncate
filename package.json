@@ -1,0 +1,23 @@
+{
+  "name": "html-truncate",
+  "version": "1.0.0",
+  "description": "truncate html to a specified length but maintain the structure",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "html",
+    "truncate"
+  ],
+  "author": "rjmacarthy",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  },
+  "dependencies": {
+    "htmlparser2": "^8.0.2",
+    "lodash": "^4.17.21"
+  },
+  "type": "module"
+}
