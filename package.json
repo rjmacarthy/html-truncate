@@ -1,5 +1,5 @@
 {
-  "name": "html-truncate",
+  "name": "html-truncator",
   "version": "1.0.0",
   "description": "truncate html to a specified length but maintain the structure",
   "main": "index.js",
@@ -8,7 +8,8 @@
   },
   "keywords": [
     "html",
-    "truncate"
+    "truncate",
+    "html-truncator"
   ],
   "author": "rjmacarthy",
   "license": "MIT",
