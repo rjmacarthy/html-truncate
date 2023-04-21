@@ -36,11 +36,6 @@ const truncate = (html, length) => {
         if (length <= 0) break;
       }
 
-      if (!ellipsisAdded && isLast) {
-        result += "...";
-        ellipsisAdded = true;
-      }
-
       const attrs = _.join(
         _.map(_.entries(node.attribs), ([key, value]) => `${key}="${value}"`),
         " "
@@ -50,15 +45,33 @@ const truncate = (html, length) => {
 
       const openTag = `<${node.name}${attrsStr}>`;
       const closeTag = `</${node.name}>`;
+
+      if (!ellipsisAdded && isLast) {
+        result += "...";
+        ellipsisAdded = true;
+      }
+
       return { length, text: openTag + result + closeTag, ellipsisAdded };
     }
 
     return { length, text: "", ellipsisAdded: false };
   };
 
-  const { text: truncatedHtml } = traverse(document[0], length, true);
+  let result = "";
+  let remainingLength = length;
+  let ellipsisAdded = false
+  for (const [index, node] of document.entries()) {
+    const isLastNode = index === document.length - 1;
+    const { length: newLength, text, ellipsisAdded: nodeEllipsisAdded } = traverse(node, remainingLength, isLastNode);
+    remainingLength = newLength;
+    result += text;
+    ellipsisAdded = nodeEllipsisAdded;
+    if (remainingLength <= 0) break;
+  }
 
-  return truncatedHtml;
+  return result;
 };
+
+
 
 export default truncate;
