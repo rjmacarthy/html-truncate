@@ -49,7 +49,16 @@ const truncate = (html, length) => {
 
   const { text: truncatedHtml } = traverse(document[0], length);
 
-  return `${truncatedHtml}...`;
+  return addEllipsis(truncatedHtml);
+}
+
+const addEllipsis = (html) => {
+  const lastClosingTagIndex = html.lastIndexOf('</');
+  if (lastClosingTagIndex === -1) {
+    return html + '...';
+  }
+
+  return html.slice(0, lastClosingTagIndex) + '...' + html.slice(lastClosingTagIndex);
 }
 
 export default truncate;
